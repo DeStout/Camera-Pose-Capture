@@ -10,6 +10,11 @@
 
 using namespace std;
 
+/*
+ * Debugging function
+ * Outputs the name and position of every joint in the message provided
+ * Assumes message parameter is a JointState
+ */
 void PrintMsg(sensor_msgs::JointState::ConstPtr joint_state) {
 	ROS_INFO("Seq: %i", joint_state->header.seq);
 	for(int i=0; i<joint_state->name.size(); i++) {
@@ -18,6 +23,11 @@ void PrintMsg(sensor_msgs::JointState::ConstPtr joint_state) {
 	cout << "\n";	
 }
 
+/*
+ * Opens recorded joint poses .bag from package root
+ * Iterates through file and stores saved poses into a vector
+ * Returns the vector
+ */
 vector<sensor_msgs::JointState::ConstPtr> ReadBag() {
 	rosbag::Bag bag;
 	string bag_path = ros::package::getPath("camera_pose_capture");
@@ -34,6 +44,11 @@ vector<sensor_msgs::JointState::ConstPtr> ReadBag() {
 	return joint_states;
 }
 
+/*
+ * Assumes that abb_irb1200_5_90_moveit_config demo.launch is running
+ * Execute with "rosrun camera_pose_capture move_to_poses"
+ * Connects to manipulator group and moves through saved poses
+ */
 int main(int argc, char **argv)
 {
 	vector<sensor_msgs::JointState::ConstPtr> joint_states = ReadBag();

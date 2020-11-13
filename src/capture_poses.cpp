@@ -7,7 +7,9 @@
 #include <string>
 using namespace std;
 
-
+/*
+ * Helper class used to store robot joint positions and write them to a .bag file
+ */
 class JointCapture {
 public:
 	static sensor_msgs::JointState joint_state;
@@ -31,6 +33,10 @@ void JointCapture::WriteToBag(rosbag::Bag *bag) {
 	bag->write("/joint_states", ros::Time::now(), JointCapture::joint_state);
 }
 
+/*
+ * Debug function
+ * Outputs the name and position of every joint being captured
+ */
 void PrintJointState() {
 	cout << "\n";
 	for(int i=0; i<JointCapture::joint_state.name.size(); i++) {
@@ -44,6 +50,13 @@ void PrintHelp() {
 	ROS_INFO("Type \"Help\" to repeat these messages.");
 }
 
+/*
+ * Assumes that abb_irb1200_5_90_moveit_config demo.launch is running
+ * Execute with "rosrun camera_pose_capture capture_poses"
+ * Subscribes to JointState and records msgs into a .bag file
+ * .bag is saved to the root of the package
+ * Rough UI loop allows user to dictate what poses are captured
+ */
 int main(int argc, char **argv)
 {
 	ros::init(argc, argv, "capture_poses");
