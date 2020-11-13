@@ -4,6 +4,7 @@ import rospy
 import rospkg
 import rosbag
 
+# Opens the .bag of captured JointStates and prints them out
 if __name__ == '__main__':
 	rospack = rospkg.RosPack()
 	pkgpath = rospack.get_path('camera_pose_capture')
